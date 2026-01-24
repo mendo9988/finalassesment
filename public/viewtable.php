@@ -41,23 +41,23 @@ catch (PDOException $e) {
                 <td><?= htmlspecialchars($rows['priority'], ENT_QUOTES, 'UTF-8') ?></td>
                 <td><?= htmlspecialchars($rows['subject'], ENT_QUOTES, 'UTF-8') ?></td>
                 <td><?= htmlspecialchars($rows['description'], ENT_QUOTES, 'UTF-8') ?></td>
-                <td><?= htmlspecialchars($rows['status'], ENT_QUOTES, 'UTF-8') ?></td>
-                <td><?= $rows['created_at']? date('d-m-Y', strtotime($rows['created_at'])) : 'N/A' ?></td>
+                <!-- <td><?= htmlspecialchars($rows['status'], ENT_QUOTES, 'UTF-8') ?></td> -->
                 <td>
                     <!-- Status dropdown for AJAX -->
-                    <select onchange="updateStatus(<?= (int)$row['id'] ?>, this.value)">
+                    <select onchange="updateStatus(<?= (int)$rows['ticket_id'] ?>, this.value)">
                     <?php
                     $statuses = ['Open', 'In Progress', 'Resolved', 'Closed'];
                     foreach ($statuses as $status):
                     ?>
                         <option value="<?= htmlspecialchars($status) ?>"
-                            <?= $row['status'] === $status ? 'selected' : '' ?>>
+                            <?= $rows['status'] === $status ? 'selected' : '' ?>>
                             <?= htmlspecialchars($status) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
                 </td>
-                <td><a href="update_status.php?id=<?= $rows['ticket_id'] ?>">Edit</a> |
+                <td><?= $rows['created_at']? date('d-m-Y', strtotime($rows['created_at'])) : 'N/A' ?></td>
+                <td><a href="edit.php?id=<?= $rows['ticket_id'] ?>">Edit</a> |
                 <a href="delete.php?id=<?= $rows['ticket_id'] ?>" onclick="return confirm('Are you sure?')" >Delete</a>
             </td>
         </tr>

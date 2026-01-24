@@ -3,17 +3,20 @@ require_once '../config/db.php';
 
 $message = '';
 $errors = [];
-try {
+
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // user input is used directly in sql
-    $name=filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $email=filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $name=filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $email=filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
         
         if (empty($name)) {
         $errors[] = "Name is required.";
         } 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (empty$errors){
+            $errors[] = "Email is required";
+        }
+        elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors[] = "Email is invalid.<br>";
         }
         if(empty($errors)){
@@ -31,13 +34,10 @@ try {
         } else {
             $message = implode('<br>', $errors);
         }
+        header('Location: fillform.php');
+        exit;
     }
 
-}catch (PDOException $e) {
-    $errors[] = "Database error: " . $e->getMessage();
-} catch (Exception $e) {
-    $message = "Something went wrong.";
-}
 ?>
 
 <!DOCTYPE html>

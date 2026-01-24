@@ -3,7 +3,7 @@ session_start();
 
 // after verifying email
 $_SESSION['user_id'] = $user['user_id'];
-
+$email = $_SESSION['email']; 
 require_once '../config/db.php';
 $message = "";
 if ($_SERVER['REQUEST_METHOD']=='POST') {
@@ -38,11 +38,11 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
     echo "<hr>";
     if(empty($errors)){
         $sql = "INSERT INTO tickets
-        (`email`, `issue_type`, `priority`, `subject`, `description`)
-        VALUES (?, ?, ?, ?, ?)";
+        (user_id, email, issue_type, priority, subject, description)
+        VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
         try {
-            $stmt->execute([$email, $issue_type, $priority, $subject, $description]);
+            $stmt->execute([$user_id, $email, $issue_type, $priority, $subject, $description]);
             $message = "Addition successful";
         } catch (PDOException $e) {
             $message = $e->getMessage();

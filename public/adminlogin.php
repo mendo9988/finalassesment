@@ -1,3 +1,18 @@
+<?php
+session_start();
+
+$correctPassword = "1234";
+if (isset($_POST['login'])) {
+    if ($_POST['password'] === $correctPassword) {
+        header("Location: viewtable.php");
+        exit();
+    } else {
+        echo "Invalid password";
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,10 +22,10 @@
 </head>
 <body>
     <main>
-        <form action="POST">
+        <form method ="POST">
             <label for="password">password</label>
             <input type="password" name="password"><br>
-            <button >Log In</button>
+            <button type="submit" name="login">Log In</button>
         </form>
     </main>
 </body>
