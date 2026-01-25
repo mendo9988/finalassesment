@@ -3,8 +3,6 @@ require_once '../config/db.php';
 
 $message = '';
 $errors = [];
-
-
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // user input is used directly in sql
         $name=filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
