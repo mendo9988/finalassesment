@@ -13,10 +13,10 @@ $errors = [];
         if (empty($name)) {
         $errors[] = "Name is required.";
         } 
-        if (empty$errors){
+        if (empty($email)){
             $errors[] = "Email is required";
         }
-        elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors[] = "Email is invalid.<br>";
         }
         if(empty($errors)){

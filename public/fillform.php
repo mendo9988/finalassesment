@@ -2,26 +2,23 @@
 session_start();
 
 // after verifying email
-$_SESSION['user_id'] = $user['user_id'];
-$email = $_SESSION['email']; 
+if (!isset($_SESSION['user_email'])) {
+    header('Location: user.php');
+    exit;
+}
+$user_id = $_SESSION['user_id'];
+$email = $_SESSION['user_email'];
+
+// $email = $_SESSION['email']; 
 require_once '../config/db.php';
 $message = "";
 if ($_SERVER['REQUEST_METHOD']=='POST') {
-    // $name=filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    // $email=filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $issue_type=filter_input(INPUT_POST, 'issue_type', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $priority=filter_input(INPUT_POST, 'priority', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $subject=filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $description=filter_input(INPUT_POST, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $errors = [];
 
-    // if (empty($name)) {
-    //     $errors[] = "Name is required.";
-    // } 
-    // // Email: validate format
-    // if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    //     $errors[] = "Email is invalid.<br>";
-    // } 
     if (empty($issue_type)) {
         $errors[] = "Issue type is required.";
     } 
@@ -65,12 +62,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
 <div class="message"><?php echo htmlspecialchars($message ?? ''); ?></div>
 
 <form method="POST">
-    <!-- <label>Name</label>
-    <input type="text" name="name" required placeholder="Your Name"><br> -->
-
-    <!-- <label>Email</label>
-    <input type="email" name="email" required placeholder="Email"><br> -->
-
+    
     <label>Issue type</label>
     <select name="issue_type">
         <option>Technical</option>

@@ -1,65 +1,51 @@
 <?php
+require_once '../config/db.php';
+session_start();
 
-require '../config/db.php';
+$error = '';
 
-$message = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 
-try {
+    if (!$email) {
+        $error = 'Invalid email address';
+    } else {
+        $stmt = $pdo->prepare("SELECT user_id, email FROM user WHERE email = ?");
+        $stmt->execute([$email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($user) {
+            // STORE REAL VALUES FROM DB
+            $_SESSION['user_id'] = (int)$user['user_id'];
+            $_SESSION['user_email'] = $user['email'];
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-// user input is used directly in sql
-    $name=filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $email=filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-        
-        if (empty($name)) {
-        $message[] = "Name is required.";
-        } 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors[] = "Email is invalid.<br>";
-        }
-        if(empty($message)){
-            $sql = "INSERT INTO user 
-            (`email`, `issue_type`, `priority`, `subject`, `description`)
-            VALUES (?, ?, ?, ?, ?)";
-            $stmt = $pdo->prepare($sql);
-            try {
-                $stmt->execute([$email, $issue_type, $priority, $subject, $description]);
-                $message = "Addition successful";
-            } catch (PDOException $e) {
-                $message = $e->getMessage();
-            }
+            header('Location: fillform.php');
+            exit;
         } else {
-            $message = implode('<br>', $errors);
+            $error = 'Email not found';
         }
-// Passwords are stored without hashing and compared as plain text
-        $sql = "INSERT INTO users (email, password) VALUES (?, ?)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-        $stmt->close();
-        $message = "User signed up successfully";
-        header('refresh: 2; url=login.php');
     }
-
-} catch (Exception $e) {
-    $message = "Something went wrong.";
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>User Login</title>
 </head>
 <body>
-    <main>
-        <form action="POST">
-            <label for="email"> Email</label>
-            <input type="email" name="email"> <br>
-            <button >Go</button>
-        </form>
-    </main>
-    <button>Sign up</button>
+
+<h2>User Access</h2>
+
+<?php if ($error): ?>
+    <p style="color:red;"><?php echo $error; ?></p>
+<?php endif; ?>
+
+<form method="POST">
+    <label>Email</label><br>
+    <input type="email" name="email" required>
+    <br><br>
+    <button type="submit">Continue</button>
+</form>
+
 </body>
 </html>

@@ -20,7 +20,7 @@ try {
         $options
     );
 
-    // echo "<h3 style='color:green;'>Welcome to Student Database!</h3>";
+    // echo "<h3 style='color:green;'>Welcome to Database!</h3>";
 
 } catch (PDOException $e) {
     die("Connection Failed: " . $e->getMessage());
@@ -28,5 +28,5 @@ try {
 ?>
 
 <a href="../public/fillform.php">fillform</a><br>
-<a href="../public/index.html">index html</a> <br>
+<a href="../public/index.php">index php</a> <br>
 <a href="../public/login.php">login</a> <br>
