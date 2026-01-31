@@ -50,6 +50,10 @@ if(!$id) {
 
     <label>Status</label>
     <input type="text" name="status" value="<?= htmlspecialchars($ticket['status']) ?>" required>
+
+    <!-- <label>Modified at</label>
+    <input type="text" name="modified_at" value="<?= htmlspecialchars($ticket['modified_at'])?>" required> -->
+    
     <button type="submit">Update</button>
 </form>
 <?php
@@ -63,6 +67,7 @@ if(!$id) {
             $_POST['subject'],
             $_POST['description'],
             $_POST['status'],
+            // $_POST['modified_at'],
             $id
         ]);
 

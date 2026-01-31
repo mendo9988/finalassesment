@@ -23,10 +23,10 @@ try {
     // echo "<h3 style='color:green;'>Welcome to Database!</h3>";
 
 } catch (PDOException $e) {
-    die("Connection Failed: " . $e->getMessage());
+    // die("Connection Failed: " . $e->getMessage());
 }
 ?>
-
+<!-- 
 <a href="../public/fillform.php">fillform</a><br>
 <a href="../public/index.php">index php</a> <br>
-<a href="../public/login.php">login</a> <br>
+<a href="../public/login.php">login</a> <br> -->
