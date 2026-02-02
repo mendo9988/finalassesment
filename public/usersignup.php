@@ -1,6 +1,6 @@
 <?php
 require_once '../config/db.php';
-session_start(); // Add this to store user info
+session_start(); // to store user info
 
 $message = '';
 $errors = [];
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (strlen($name) < 3) {
         $errors[] = "Name must be at least 3 characters long";
     }
-    // checkname
+    // check email
     if (empty($email)){
         $errors[] = "Email is required";
     }

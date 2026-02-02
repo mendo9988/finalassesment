@@ -1,6 +1,5 @@
 <?php 
 session_start();
-
 // after verifying email
 if (!isset($_SESSION['user_email'])) {
     header('Location: user.php');
@@ -9,7 +8,6 @@ if (!isset($_SESSION['user_email'])) {
 $user_id = $_SESSION['user_id'];
 $email = $_SESSION['user_email'];
 
-// $email = $_SESSION['email']; 
 require_once '../config/db.php';
 $message = "";
 if ($_SERVER['REQUEST_METHOD']=='POST') {
@@ -83,6 +81,10 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
 
     <label>Description</label>
     <textarea name="description" required></textarea><br>
+
+<!-- csrf  -->
+    <input type="hidden" name="csrf_token"
+       value="<?= $_SESSION['csrf_token'] ?>">
 
     <button type="submit">Submit Ticket</button>
 </form>

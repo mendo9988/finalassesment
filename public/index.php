@@ -1,4 +1,10 @@
 <?php
+session_start();
+// Generate token (server-side)
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 if ($_SERVER['REQUEST_METHOD']==='POST') {
     if ($_POST['role']==='user') {
         header('Location: user.php');

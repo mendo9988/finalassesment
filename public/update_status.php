@@ -6,6 +6,14 @@ echo json_encode([
     'success' => true
 ]);
 
+if (
+    !isset($_POST['csrf_token']) ||
+    !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+) {
+    die("Invalid CSRF token");
+}
+
+
 // Read JSON input
 $data = json_decode(file_get_contents("php://input"), true);
 

@@ -1,13 +1,11 @@
 <?php
-include '../includes/header.php';
-include 'includes/footer.php';
-require_once '../config/db.php';
-
 session_start();
 if (!isset($_SESSION['authenticated'])) {
     header("Location: adminlogin.php");
     exit();
 }
+
+require_once '../config/db.php';
 
 try {
     $sql = "SELECT * FROM tickets WHERE 1";
@@ -67,6 +65,7 @@ catch (PDOException $e) {
 </head>
 <body>
 
+<?php include '../includes/header.php'; ?>
 
     <main>
         <table border="1">
@@ -123,6 +122,8 @@ catch (PDOException $e) {
             <?php endif; ?>
         </table>
     </main>
-<script src="../assets/script.js"></script>
+
+<?php include '../includes/footer.php'; ?>
+
 </body>
 </html>

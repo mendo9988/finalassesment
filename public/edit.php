@@ -6,6 +6,14 @@ if (!$id) {
     die("Invalid ticket ID");
 }
 
+if (
+    !isset($_POST['csrf_token']) ||
+    !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+) {
+    die("Invalid CSRF token");
+}
+
+
 try {
 $sql = "Select * from tickets where ticket_id = ?";
 $stmt = $pdo->prepare($sql);
@@ -56,6 +64,7 @@ if(!$id) {
     
     <button type="submit">Update</button>
 </form>
+<?php include '../includes/footer.php'; ?>
 <?php
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $sql = "UPDATE tickets SET email=?, issue_type=?, priority=?, subject=?, description=?, status=?, modified_at = NOW() WHERE ticket_id=?";
@@ -77,4 +86,5 @@ if(!$id) {
         header("Location: viewtable.php");
         exit;
     }
+
 ?>
