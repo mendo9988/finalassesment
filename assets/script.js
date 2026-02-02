@@ -1,52 +1,44 @@
-const ListDiv = document.getElementById('list');
-const searchInput = document.getElementById('searchbar');
+const searchBox = document.getElementById("searchBox");
+const suggestionsDiv = document.getElementById("suggestions");
 
-// Function to dynamically render list to the HTM
-function renderList(toDisplay) {
-    ListDiv.innerHTML = '';
-    if(toDisplay.length === 0) {
-        ListDiv.innerHTML = '<p>No data found matching your criteria.</p>';
-        return;
-    }
+searchBox.addEventListener("keyup", function () {
+    const query = this.value.trim();
 
-    toDisplay.forEach(list => {
-        const listElement = document.createElement('div');
-        listElement.classList.add('list-item');
-        listElement.innerHTML = `
-        <p><strong>${list.title}</strong> (${list.date}) - ${list.subject}</p>
-        `
-    })
-}
-searchInput.addEventListener('input', function() {
-    const searchTerm = searchInput.value.toLowerCase();
-    const filterList = allMovies.filter(list => {
-        const subjectMatch = list.title.toLowerCase().includes(searchTerm);
-        const descriptionMatch = movie.description.toLowerCase().includes(searchTerm);
-        return subjectMatch || descriptionMatch;
+    fetch(`../public/autocomplete.php?q=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+            suggestionsDiv.innerHTML = "";
 
+            data.forEach(item => {
+                const div = document.createElement("div");
+                div.classList.add("suggestion-item");
+                div.textContent = `${item.subject} `;
+
+                div.onclick = () => {
+                    searchBox.value = item.subject;
+                    suggestionsDiv.innerHTML = "";
+                };
+
+                suggestionsDiv.appendChild(div);
+            });
+        })
+        // .catch(err => console.error(err));
 });
-renderList(filterList);
-    });
 
 
-
-// function search_animal() {
-//     document.getElementById("searchbar").addEventListener("keyup", function () {
-//         fetch("search_ajax.php?q=" + this.value)
-//             .then(res => res.text())
-//             .then(html => {
-//                 document.getElementById("results").innerHTML = html;
-//             });
-//     });
-//     let input = document.getElementById('searchbar').value ;
-//     input = input.toLowerCase();
-//     let x = document.getElementsByClassName('animals');
-//     for (i = 0; i < x.length; i++) {
-//         if (!x[i].innerHTML.toLowerCase().includes(input)) {
-//             x[i].computedStyleMap.display = "none";
-//         }
-//         else {
-//             x[i].computedStyleMap.display = "list_item";
-//         }
-//     }
-// }
+function updateStatus(ticketId, status) {
+    fetch('../public/update_status.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ticket_id: ticketId, status: status })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Status updated');
+        } else {
+            alert(data.message || 'Status update failed');
+        }
+    })
+    .catch(err => console.error(err));
+}

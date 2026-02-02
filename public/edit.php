@@ -58,7 +58,10 @@ if(!$id) {
 </form>
 <?php
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        $sql = "UPDATE tickets SET email=?, issue_type=?, priority=?, subject=?, description=?, status=? WHERE ticket_id=?";
+        $sql = "UPDATE tickets SET email=?, issue_type=?, priority=?, subject=?, description=?, status=?, modified_at = NOW() WHERE ticket_id=?";
+        // UPDATE tickets 
+        //  SET status = ?, modified_at = NOW() 
+        //  WHERE ticket_id = ?
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             $_POST['email'],

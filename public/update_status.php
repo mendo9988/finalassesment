@@ -2,6 +2,9 @@
 <?php
 require_once '../config/db.php';
 header('Content-Type: application/json');
+echo json_encode([
+    'success' => true
+]);
 
 // Read JSON input
 $data = json_decode(file_get_contents("php://input"), true);

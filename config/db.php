@@ -1,6 +1,4 @@
-
 <?php 
-
 $server = 'localhost';
 $username = 'root';
 $password = '';
@@ -26,7 +24,3 @@ try {
     // die("Connection Failed: " . $e->getMessage());
 }
 ?>
-<!-- 
-<a href="../public/fillform.php">fillform</a><br>
-<a href="../public/index.php">index php</a> <br>
-<a href="../public/login.php">login</a> <br> -->
