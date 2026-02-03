@@ -4,6 +4,11 @@ $username = 'root';
 $password = '';
 $database = 'final';
 
+// $server = 'localhost';
+// $username = 'np03cs4a240305';
+// $password = '5FXO4r4PeP';
+// $database = 'np03cs4a240305';
+
 try {
     $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -21,6 +26,6 @@ try {
     // echo "<h3 style='color:green;'>Welcome to Database!</h3>";
 
 } catch (PDOException $e) {
-    // die("Connection Failed: " . $e->getMessage());
+    die("Connection Failed: " . $e->getMessage());
 }
 ?>

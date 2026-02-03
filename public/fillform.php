@@ -54,41 +54,65 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/style.css">
     <title></title>
 </head>
 <body>
-<div class="message"><?php echo htmlspecialchars($message ?? ''); ?></div>
+<div class="clipboard">
+        <div class="paper">
+            <div class="badge">Support Ticket</div>
+            <h2>Submit a Ticket</h2>
+            <p class="subtitle">Fill out the form below to submit your request</p>
+            
+            <?php if (isset($message) && $message): ?>
+                <div class="success-message">
+                    <?php echo htmlspecialchars($message); ?>
+                </div>
+            <?php endif; ?>
 
-<form method="POST">
-    
-    <label>Issue type</label>
-    <select name="issue_type">
-        <option>Technical</option>
-        <option>Billing</option>
-        <option>Account</option>
-        <option>Other</option>
-    </select><br>
-    
-    <label>Priority</label>
-    <select name="priority">
-        <option>Low</option>
-        <option>Medium</option>
-        <option>High</option>
-    </select><br>
-    
-    <label>Subject</label>
-    <input type="text" name="subject" required placeholder="Subject"><br>
+            <form method="POST">
+                <div class="form-group">
+                    <label>Issue Type</label>
+                    <select name="issue_type" required>
+                        <option value="">Select issue type</option>
+                        <option>Technical</option>
+                        <option>Billing</option>
+                        <option>Account</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Priority</label>
+                    <select name="priority" required>
+                        <option value="">Select priority</option>
+                        <option>Low</option>
+                        <option>Medium</option>
+                        <option>High</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" name="subject" required placeholder="Brief description of the issue">
+                </div>
 
-    <label>Description</label>
-    <textarea name="description" required></textarea><br>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" required placeholder="Please provide detailed information about your issue"></textarea>
+                </div>
 
-<!-- csrf  -->
-    <input type="hidden" name="csrf_token"
-       value="<?= $_SESSION['csrf_token'] ?>">
+                <!-- CSRF token -->
+                <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
 
-    <button type="submit">Submit Ticket</button>
-</form>
+                <button type="submit">Submit Ticket</button>
 
+                <div class="back-link">
+                    <a href="user.php">← Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
 

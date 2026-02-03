@@ -55,7 +55,7 @@ catch (PDOException $e) {
     echo  "Error: " . $e->getMessage();
 }
 ?>
-<!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -65,63 +65,74 @@ catch (PDOException $e) {
 </head>
 <body>
 
-<?php include '../includes/header.php'; ?>
-
-    <main>
-        <table border="1">
-            <tr>
-                <th>Ticket Id</th>
-                <th>User Id</th>
-                <th>Email</th>
-                <th>Issue Type</th>
-                <th>Priority</th>
-                <th>Subject</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Created At</th>
-                <th>Modified At</th>
-                <th>Actions</th>
-            </tr>
-            <?php if (empty($data)): ?>
-                <tr>
-                    <td colspan="11" style="text-align: center; padding: 20px;">
-                        No tickets found. <?php if (!empty($_GET['search'])): ?>Try a different search term.<?php endif; ?>
-                    </td>
-                </tr>
-            <?php else: ?>
-                <?php foreach ($data as $rows): ?>
-                <tr>
-                    <td><?= htmlspecialchars($rows['ticket_id'], ENT_QUOTES, 'UTF-8') ?></td>
-                    <td><?= htmlspecialchars($rows['user_id'], ENT_QUOTES, 'UTF-8') ?></td>
-                    <td><?= htmlspecialchars($rows['email'], ENT_QUOTES, 'UTF-8') ?></td>
-                    <td><?= htmlspecialchars($rows['issue_type'], ENT_QUOTES, 'UTF-8') ?></td>
-                    <td><?= htmlspecialchars($rows['priority'], ENT_QUOTES, 'UTF-8') ?></td>
-                    <td><?= htmlspecialchars($rows['subject'], ENT_QUOTES, 'UTF-8') ?></td>
-                    <td><?= htmlspecialchars($rows['description'], ENT_QUOTES, 'UTF-8') ?></td>
-                    <td>
-                        <select onchange="updateStatus(<?= (int)$rows['ticket_id'] ?>, this.value)">
-                        <?php
-                        $statuses = ['Open', 'In Progress', 'Resolved', 'Closed'];
-                        foreach ($statuses as $status):
-                        ?>
-                            <option value="<?= htmlspecialchars($status) ?>"
-                                <?= $rows['status'] === $status ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($status) ?>
-                            </option>
-                        <?php endforeach; ?>
-                        </select>
-                    </td>
-                    <td><?= $rows['created_at']? date('d-m-Y', strtotime($rows['created_at'])) : 'N/A' ?></td>
-                    <td><?= $rows['modified_at']? date('d-m-Y', strtotime($rows['modified_at'])) : 'N/A' ?> </td>
-                    <td>
-                        <a href="edit.php?id=<?= $rows['ticket_id'] ?>">Edit</a> |
-                        <a href="delete.php?id=<?= $rows['ticket_id'] ?>" onclick="return confirm('Are you sure?')" >Delete</a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </table>
-    </main>
+    <div class="clipboard-tb">
+    <a href="viewtable.php" class="title-link">
+        <h2 class="page-title">Ticket Management</h2>
+    </a>
+        <div class="paper">
+            <?php include '../includes/header.php'; ?>
+            <main>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ticket ID</th>
+                            <th>User ID</th>
+                            <th>Email</th>
+                            <th>Issue Type</th>
+                            <th>Priority</th>
+                            <th>Subject</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Created At</th>
+                            <th>Modified At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($data)): ?>
+                            <tr>
+                                <td colspan="11" class="empty-state">
+                                    No tickets found. <?php if (!empty($_GET['search'])): ?>Try a different search term.<?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php else: ?>
+                            <?php foreach ($data as $rows): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($rows['ticket_id'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><?= htmlspecialchars($rows['user_id'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><?= htmlspecialchars($rows['email'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><?= htmlspecialchars($rows['issue_type'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><?= htmlspecialchars($rows['priority'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><?= htmlspecialchars($rows['subject'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td><?= htmlspecialchars($rows['description'], ENT_QUOTES, 'UTF-8') ?></td>
+                                <td>
+                                    <select onchange="updateStatus(<?= (int)$rows['ticket_id'] ?>, this.value)">
+                                    <?php
+                                    $statuses = ['Open', 'In Progress', 'Resolved', 'Closed'];
+                                    foreach ($statuses as $status):
+                                    ?>
+                                        <option value="<?= htmlspecialchars($status) ?>"
+                                            <?= $rows['status'] === $status ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($status) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                    </select>
+                                </td>
+                                <td><?= $rows['created_at']? date('d-m-Y', strtotime($rows['created_at'])) : 'N/A' ?></td>
+                                <td><?= $rows['modified_at']? date('d-m-Y', strtotime($rows['modified_at'])) : 'N/A' ?> </td>
+                                <td>
+                                    <a href="edit.php?id=<?= $rows['ticket_id'] ?>">Edit</a> |
+                                    <a href="delete.php?id=<?= $rows['ticket_id'] ?>" onclick="return confirm('Are you sure?')">Delete</a>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </main>
+        </div>
+    </div>
 
 <?php include '../includes/footer.php'; ?>
 

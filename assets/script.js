@@ -15,14 +15,6 @@ if (searchBox && suggestionsDiv) {
     searchBox.addEventListener("keyup", debounce(function () {
         const query = this.value.trim();
 
-        // Clear suggestions if search is empty
-        if (query.length === 0) {
-            suggestionsDiv.innerHTML = "";
-            suggestionsDiv.style.display = "none";
-            return;
-        }
-        // Show loading state
-        suggestionsDiv.innerHTML = '<div class="suggestion-item loading">Loading...</div>';
         suggestionsDiv.style.display = "block";
 
         fetch(`../public/autocomplete.php?q=${encodeURIComponent(query)}`)
@@ -113,16 +105,4 @@ function updateStatus(ticketId, status) {
             selectElement.value = previousValue;
         }
     })
-    .catch(err => {
-        // Revert to previous value on error
-        selectElement.value = previousValue;
-    });
 }
-
-// Optional: Initialize all status selects with their current value
-document.addEventListener('DOMContentLoaded', function() {
-    const statusSelects = document.querySelectorAll('select[onchange^="updateStatus"]');
-    statusSelects.forEach(select => {
-        select.setAttribute('data-previous-value', select.value);
-    });
-});

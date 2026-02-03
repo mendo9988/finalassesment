@@ -68,25 +68,37 @@ if (isset($_POST['login'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/style.css">
     <title>Secure Login</title>
 </head>
 <body>
+<div class="clipboard">
+    <div class="paper">
+        <h2>Admin Login</h2>
+        <div class="badge">Secure Access</div>
 
-<h2>Login</h2>
+        <?php if ($error): ?>
+            <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
+        <?php endif; ?>
 
-<?php if ($error): ?>
-    <p style="color:red;"><?php echo $error; ?></p>
-<?php endif; ?>
+        <form method="POST">
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+            </div>
 
-<form method="POST">
-    <label for="password">Password</label><br>
-    <input type="password" name="password" id="password" required><br><br>
+            <!-- CSRF Token -->
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 
-    <!-- CSRF Token -->
-    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+            <button type="submit" name="login">Login</button>
+        </form>
 
-    <button type="submit" name="login">Login</button>
-</form>
+        <div class="back-link">
+            <a href="index.php">← Back to Home</a>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

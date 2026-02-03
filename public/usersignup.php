@@ -59,9 +59,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/style.css">
     <title>Sign Up</title>
 </head>
 <body>
+<div class="clipboard">
+<div class="paper">
     <h2>Sign Up</h2>
     
     <?php if ($errors): ?>
@@ -81,5 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
     
     <p>Already have an account? <a href="user.php">Login here</a></p>
+    </div>
+    </div>
 </body>
 </html>

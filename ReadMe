@@ -1,0 +1,31 @@
+Ticket Management System
+
+Login Credentials
+
+Admin Account:
+- Password: admin123
+
+**User Account:**
+- Email: xyz@gmail.com
+
+## Setup Instructions
+
+1. Import the database file `ticket_system.sql` into MySQL
+2. Update database credentials in `config.php`
+3. Start your local server (XAMPP/WAMP)
+4. Navigate to `http://localhost/ticket-system`
+
+## Features Implemented
+
+- User authentication (login/logout)
+- Ticket creation and management
+- Filter tickets by Issue Type, Priority, and Date
+- Real-time search with autocomplete suggestions
+- Edit and delete tickets
+- Responsive navbar with dropdown menus
+
+## Known Issues
+
+- Search suggestions may overlap with table on smaller screens
+- Date filter needs timezone adjustment
+- Clear All Filters button doesn't show when only one filter is active

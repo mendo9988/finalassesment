@@ -11,7 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$email) {
             $error = 'Invalid email address';
         } else {
-            $stmt = $pdo->prepare("SELECT user_id, email FROM user WHERE email = ?");
+            $sql = "SELECT user_id, email FROM user WHERE email = ?";
+            $stmt = $pdo->prepare($sql);
             $stmt->execute([$email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($user) {
@@ -31,25 +32,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Login</title>
+    <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
+<div class="clipboard">
+        <div class="paper">
+            <div class="badge">User Portal</div>
+            <h2>User Access</h2>
+            <p class="subtitle">Enter your email to continue</p>
+            
+            <?php if ($error): ?>
+                <div class="error-message">
+                    <?php echo htmlspecialchars($error); ?>
+                </div>
+            <?php endif; ?>
 
-<h2>User Access</h2>
+            <form method="POST">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" required placeholder="Enter your email">
+                </div>
+                
+                <button type="submit">Continue</button>
+                
+                <div class="signup-section">
+                    <p>Don't have an account?</p>
+                    <a href="usersignup.php">
+                        <button type="button">Sign Up</button>
+                    </a>
+                </div>
+            </form>
 
-<?php if ($error): ?>
-    <p style="color:red;"><?php echo $error; ?></p>
-<?php endif; ?>
-
-<form method="POST">
-    <label>Email</label><br>
-    <input type="email" name="email" required>
-    <br><br>
-    <button type="submit">Continue</button> <br>
-    <p>Don't have an account?
-        <a href="usersignup.php"><button type="button">Sign up</button></a>
-    </p>
-</form>
-
+            <div class="back-link">
+                <a href="index.php">← Back to Home</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
